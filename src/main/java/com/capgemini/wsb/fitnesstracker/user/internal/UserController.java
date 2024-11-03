@@ -16,13 +16,21 @@ import java.util.Date;
 @RestController
 @RequestMapping("/v1/users")
 @RequiredArgsConstructor
+
+
+
 class UserController {
+
 
     private final UserServiceImpl userService;
     private final UserMapper userMapper;
     private final UserMapperSimple userMapperSimple;
     private final UserMapperEmailSimple userMapperEmailSimple;
 
+    /**
+     *
+     * @return
+     */
     @GetMapping
     public List<UserDto> getAllUsers() {
         return userService.findAllUsers()
@@ -31,6 +39,10 @@ class UserController {
                           .toList();
     }
 
+    /**
+     *
+     * @return
+     */
     @GetMapping("/simple")
     public List<UserDtoSimple> getAllUsersSimple() {
         return userService.findAllUsers()
@@ -39,6 +51,11 @@ class UserController {
                 .toList();
     }
 
+    /**
+     *
+     * @param userId
+     * @return
+     */
     @GetMapping("/{userId}")
     public UserDto getUser(@PathVariable Long userId) {
         return userService.getUser(userId)
@@ -46,6 +63,11 @@ class UserController {
                 .orElseThrow(() -> new IllegalArgumentException("User with id " + userId + " not found"));
     }
 
+    /**
+     *
+     * @param email
+     * @return
+     */
     @GetMapping("/email")
     public List<EmailUserSimpleDto> getUserByEmail(@RequestParam String email) {
         return userService.getUserByEmailIgnoreCase(email)
@@ -54,6 +76,11 @@ class UserController {
                 .toList();
     }
 
+    /**
+     *
+     * @param time
+     * @return
+     */
     @GetMapping("/older/{time}")
     public List<UserDto> getUsersOlderThan(@PathVariable LocalDate time) {
         return userService.getUsersOlderThan(time)
@@ -61,6 +88,13 @@ class UserController {
                 .map(userMapper::toDto)
                 .toList();
     }
+
+    /**
+     *
+     * @param userDto
+     * @return
+     * @throws InterruptedException
+     */
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -80,6 +114,12 @@ class UserController {
         return null;
     }
 
+    /**
+     *
+     * @param userId
+     * @param userDto
+     * @return
+     */
     @PutMapping("/{userId}")
     public User updateUser(@PathVariable Long userId, @RequestBody UserDto userDto) {
         try{
@@ -94,11 +134,15 @@ class UserController {
         }
     }
 
+    /**
+     *
+     * @param userId
+     */
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable Long userId){
+    public void removeUser(@PathVariable Long userId){
         try{
-            userService.deleteUser(userId);
+            userService.removeUser(userId);
         }
         catch (Exception e)
         {

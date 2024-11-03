@@ -5,6 +5,7 @@ import com.capgemini.wsb.fitnesstracker.exception.api.NotFoundException;
 /**
  * Exception indicating that the {@link User} was not found.
  */
+
 @SuppressWarnings("squid:S110")
 public class UserNotFoundException extends NotFoundException {
 

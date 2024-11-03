@@ -23,11 +23,22 @@ interface UserRepository extends JpaRepository<User, Long> {
                         .findFirst();
     }
 
+    /**
+     *
+     * @param emailFragment
+     * @return
+     */
     default List<User> findByEmailFragmentIgnoreCase(String emailFragment) {
         return findAll().stream()
                 .filter(user -> user.getEmail().toLowerCase().contains(emailFragment.toLowerCase()))
                 .toList();
     }
+
+    /**
+     *
+     * @param date
+     * @return
+     */
 
     default List<User> findByBirthDateBefore(LocalDate date) {
         return findAll().stream()

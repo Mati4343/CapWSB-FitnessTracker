@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "71f255de-f630-4a8b-a2aa-105163c91dc6",
+		"name": "CapWSB-FitnessTracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39456854"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8081/v1/users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required fields - Id, firstName, lastName, birthdate, and email\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    \r",
+							"    responseData.forEach(function(user) {\r",
+							"        pm.expect(user).to.have.property('Id');\r",
+							"        pm.expect(user).to.have.property('firstName');\r",
+							"        pm.expect(user).to.have.property('lastName');\r",
+							"        pm.expect(user).to.have.property('birthdate');\r",
+							"        pm.expect(user).to.have.property('email');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Email is in a valid format\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    responseData.forEach(function(user) {\r",
+							"        pm.expect(user.email).to.match(/^([\\w.%+-]+)@([\\w-]+\\.)+([\\w]{2,})$/);\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response is in JSON format\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"var template = `\r",
+							"<style type=\"text/css\">\r",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    .tftable tr {background-color:#ffffff;}\r",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    .tftable tr:hover {background-color:#e0ffff;}\r",
+							"</style>\r",
+							"\r",
+							"<table class=\"tftable\" border=\"1\">\r",
+							"    <tr>\r",
+							"        <th>ID</th>\r",
+							"        <th>First Name</th>\r",
+							"        <th>Last Name</th>\r",
+							"        <th>Birthdate</th>\r",
+							"        <th>Email</th>\r",
+							"    </tr>\r",
+							"    \r",
+							"    {{#each response}}\r",
+							"        <tr>\r",
+							"            <td>{{Id}}</td>\r",
+							"            <td>{{firstName}}</td>\r",
+							"            <td>{{lastName}}</td>\r",
+							"            <td>{{birthdate}}</td>\r",
+							"            <td>{{email}}</td>\r",
+							"        </tr>\r",
+							"    {{/each}}\r",
+							"</table>\r",
+							"`;\r",
+							"\r",
+							"function constructVisualizerPayload() {\r",
+							"    return {response: pm.response.json()}\r",
+							"}\r",
+							"\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

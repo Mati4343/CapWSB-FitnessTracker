@@ -5,7 +5,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 class UserMapper {
-
+    /**
+     *
+     * @param user
+     * @return
+     */
     UserDto toDto(User user) {
         return new UserDto(user.getId(),
                            user.getFirstName(),
@@ -14,6 +18,11 @@ class UserMapper {
                            user.getEmail());
     }
 
+    /**
+     *
+     * @param userDto
+     * @return
+     */
     User toEntity(UserDto userDto) {
         return new User(
                         userDto.firstName(),
@@ -22,6 +31,12 @@ class UserMapper {
                         userDto.email());
     }
 
+    /**
+     * 
+     * @param userDto
+     * @param user
+     * @return
+     */
     User toUpdateEntity(UserDto userDto, User user) {
         if(userDto.firstName() != null) {
             user.setFirstName(userDto.firstName());
